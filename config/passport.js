@@ -79,11 +79,14 @@ module.exports = function( passport ) {
               return done(null,false, req.flash('loginMessage', 'sorry no one by that email'));
             }
 
-            if(!user.validPassword(password)){
-              return done(null,false, req.flash('loginMessage', 'sorry wrong password'));
-             }
+            user.validPassword(password, function(err, isMatch){
 
-            return done(null, user, req.flash('loginMessage', 'Logged in successfully'));
+              if(isMatch){
+                return done(null, user, req.flash('loginMessage', 'Logged in successfully'));
+              }
+
+              return done(null,false, req.flash('loginMessage', 'sorry wrong password'));
+            })
           });
         });
     }));
