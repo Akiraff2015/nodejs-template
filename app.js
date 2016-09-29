@@ -11,16 +11,19 @@ var session = require('express-session');
 var app = express();
 
 // Connect with Mongo DB
-mongoose.connect('mongodb://localhost/passport');
+mongoose.connect('mongodb://localhost/node-template');
 
 // Init middel-ware
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // View Engine
 app.set( 'views', path.join(__dirname, 'views'));
-app.set( 'view engine', 'jade');
+app.set( 'view engine', 'pug');
 
 // Setup sessions
 app.use(session( { secret: 'ilovevdi'}));
